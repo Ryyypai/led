@@ -1,0 +1,52 @@
+
+int status;
+int nyala ;
+int ditahan;
+
+void setup (){
+  Serial.begin(115200);
+  pinMode(2, INPUT);
+  pinMode(3, OUTPUT);
+  nyala = LOW;
+  ditahan = LOW;
+}
+
+void loop(){
+  status = digitalRead(2);
+
+  if (ditahan == HIGH){
+        digitalWrite(3, HIGH);
+        delay(500);
+        digitalWrite(3, LOW);
+        delay(500);
+  }
+
+
+  if (nyala == HIGH && status == 1){
+    digitalWrite(3, LOW);
+    nyala = LOW;
+    delay(200);
+  }
+
+  status = digitalRead(2);
+
+  if (status == 1){
+    digitalWrite(3, HIGH);
+    nyala = HIGH;
+    delay(200);
+
+    status = digitalRead(2);
+    if (ditahan == LOW && status == 1){
+        ditahan = HIGH;
+      }
+
+    else if (ditahan  == HIGH && status == 1){
+      ditahan = LOW;
+      delay(800);
+    }
+    
+  }
+
+  Serial.println(status);
+
+}
